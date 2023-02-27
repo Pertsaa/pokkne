@@ -1,0 +1,5 @@
+packages:
+  - pokkne-discord
+  - pokkne-telegram
+  - pokkne-admin
+  - packages/*
