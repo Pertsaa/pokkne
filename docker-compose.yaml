@@ -1,0 +1,35 @@
+version: "3.9"
+
+services:
+  service-chatter-database:
+    container_name: "service-chatter-database"
+    image: "postgres"
+    environment:
+      POSTGRES_PASSWORD: "docker"
+      POSTGRES_USER: "docker"
+      POSTGRES_DB: "database"
+    volumes:
+      - "data:/var/lib/postgresql/data"
+    ports:
+      - "5432:5432"
+    networks:
+      - default
+    restart: unless-stopped
+
+  # service-intent-database:
+  #   container_name: "service-intent-database"
+  #   image: "postgres"
+  #   environment:
+  #     POSTGRES_PASSWORD: "docker"
+  #     POSTGRES_USER: "docker"
+  #     POSTGRES_DB: "database"
+  #   volumes:
+  #     - "data:/var/lib/postgresql/data"
+  #   ports:
+  #     - "5433:5432"
+  #   networks:
+  #     - default
+  #   restart: unless-stopped
+
+volumes:
+  data:

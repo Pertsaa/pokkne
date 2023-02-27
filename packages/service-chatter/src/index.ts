@@ -2,6 +2,9 @@ import { inferAsyncReturnType, initTRPC } from "@trpc/server";
 import { z } from "zod";
 import * as trpcExpress from "@trpc/server/adapters/express";
 import express from "express";
+import { PrismaClient } from "@prisma/client";
+
+const prisma = new PrismaClient();
 
 const createContext = ({
   req,
@@ -21,6 +24,10 @@ const router = t.router;
 const publicProcedure = t.procedure;
 
 const appRouter = router({
+  history: publicProcedure.query(async (req) => {
+    const history = await prisma.chatHistory.findMany();
+    return history;
+  }),
   chat: publicProcedure
     .input(
       z.object({
