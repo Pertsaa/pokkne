@@ -6,7 +6,13 @@ const t = initTRPC.context<Context>().create();
 
 export const router = t.router({
   history: t.procedure.query(async ({ ctx }) => {
-    const history = await ctx.prisma.chatHistory.findMany();
+    const history = await ctx.prisma.chatHistory.findMany({
+      select: {
+        id: true,
+        message: true,
+        response: true,
+      },
+    });
     return history;
   }),
 

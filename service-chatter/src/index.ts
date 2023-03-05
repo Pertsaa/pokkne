@@ -2,9 +2,11 @@ import * as trpcExpress from "@trpc/server/adapters/express";
 import express from "express";
 import { router } from "./router";
 import { createContext } from "./utils/trpcContext";
+import cors from "cors";
 
 async function main() {
   const app = express();
+  app.use(cors());
 
   app.use((req, _res, next) => {
     console.log("⬅️ ", req.method, req.path, req.body ?? req.query);

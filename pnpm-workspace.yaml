@@ -2,4 +2,6 @@ packages:
   - pokkne-discord
   - pokkne-telegram
   - pokkne-admin
-  - packages/*
+  - service-auth
+  - service-chatter
+  - service-intent
