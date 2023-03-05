@@ -4,19 +4,39 @@ import { Context } from "./utils/trpcContext";
 
 const t = initTRPC.context<Context>().create();
 
-const publicProcedure = t.procedure;
-
 export const router = t.router({
-  history: publicProcedure.query(async ({ ctx }) => {
+  history: t.procedure.query(async ({ ctx }) => {
     const history = await ctx.prisma.chatHistory.findMany();
     return history;
   }),
-  chat: publicProcedure.input(MessageValidator).query(({ input }) => {
-    return { message: `${input.message} -> chat` };
-  }),
-  opinion: publicProcedure.input(OpinionValidator).query(({ input }) => {
-    return { message: `${input.target} -> opinion` };
-  }),
+
+  chat: t.procedure
+    .input(MessageValidator)
+    .output(MessageValidator)
+    .query(async ({ ctx, input }) => {
+      const response = { message: `${input.message} -> chat` };
+      await ctx.prisma.chatHistory.create({
+        data: {
+          message: input.message,
+          response: response.message,
+        },
+      });
+      return response;
+    }),
+
+  opinion: t.procedure
+    .input(OpinionValidator)
+    .output(MessageValidator)
+    .query(async ({ ctx, input }) => {
+      const response = { message: `${input.target} -> opinion` };
+      await ctx.prisma.chatHistory.create({
+        data: {
+          message: input.target,
+          response: response.message,
+        },
+      });
+      return response;
+    }),
 });
 
 export type ChatterServiceRouter = typeof router;

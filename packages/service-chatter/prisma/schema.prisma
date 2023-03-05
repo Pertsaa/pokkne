@@ -15,4 +15,12 @@ model ChatHistory {
     message     String
     response    String
     createdAt   DateTime    @default(now())
+    updatedAt   DateTime    @default(now())
+}
+
+model Sentences {
+    id          Int         @id @default(autoincrement())
+    message     String
+    createdAt   DateTime    @default(now())
+    updatedAt   DateTime    @default(now())
 }
