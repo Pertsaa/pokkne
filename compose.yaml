@@ -1,0 +1,29 @@
+version: "3.9"
+
+services:
+  pokkne:
+    build:
+      context: .
+      target: development
+    ports:
+      - "5173:5173"
+      - "50051:50051"
+    depends_on:
+      - service-chatter-database
+
+  service-chatter-database:
+    image: "postgres"
+    environment:
+      POSTGRES_PASSWORD: "docker"
+      POSTGRES_USER: "docker"
+      POSTGRES_DB: "database"
+    volumes:
+      - "chatter-data:/var/lib/postgresql/data"
+    ports:
+      - "5432:5432"
+    networks:
+      - default
+    restart: unless-stopped
+
+volumes:
+  chatter-data:

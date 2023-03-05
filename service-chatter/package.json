@@ -5,8 +5,8 @@
   "main": "src/index.js",
   "scripts": {
     "start:dev": "ts-node src/index.ts",
-    "prisma:migrate": "npx prisma db push",
-    "prisma:generate": "npx prisma generate"
+    "db:generate": "prisma generate",
+    "db:push": "prisma db push"
   },
   "keywords": [],
   "author": "",
